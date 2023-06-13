@@ -1,13 +1,18 @@
 <?php
-
     class Task {
-        public int $number;
+        public int $id;
         public string $title;
-        public string $doneStatus;
-        public function __construct(int $number, string $title, string $doneStatus) {
-            $this->number = $number;
+        public bool $doneStatus;
+        public $changedDateTime; 
+        public bool $deletionStatus;
+        public $deletionDateTime;
+        public function __construct(int $id, string $title, bool $doneStatus, $changedDateTime, bool $deletionStatus, $deletionDateTime) {
+            $this->id = $id;
             $this->title = $title;
             $this->doneStatus = $doneStatus;
+            $this->changedDateTime = $changedDateTime;
+            $this->deletionStatus = $deletionStatus;
+            $this->deletionDateTime = $deletionDateTime;
         }
     }
 
@@ -23,11 +28,11 @@
         global $host, $mySqlUser, $mySqlPassword, $login, $tasks;
         $connect = new mysqli($host, $mySqlUser, $mySqlPassword, $login);
         if($connect->connect_error) {
-            echo "Error number:".$connect->connect_errno.'<br>';
+            echo "Error id:".$connect->connect_errno.'<br>';
             echo "Error:".$connect->connect_error;
             exit;
         }
-        $query = "SELECT * FROM `ToDoList`";
+        $query = "SELECT * FROM `ToDoList` WHERE `deletionStatus` <> 1";
         $result = $connect->query($query);
     
         if($result->num_rows == 0) {
@@ -38,9 +43,10 @@
 
             foreach($todolist as $v) {
                 $taskId = 'task'.$v['id'];
-                $tasks += array($taskId => ${'task'.$v['id']} = new Task($v['id'], $v['title'], $v['doneStatus']));
+                $tasks += array($taskId => ${'task'.$v['id']} = new Task($v['id'], $v['title'], $v['doneStatus'], $v['changedDateTime'], $v['deletionStatus'], $v['deletionDateTime']));
             }
             foreach ($tasks as $v):
+                if($v->deletionStatus == 1) continue;
                 if ($countTasks == 0):
                 ?>
                   <div class="tasks-row">
@@ -50,14 +56,15 @@
                     <div class="task-container">
                         <form class="update-form <?php if ($v->doneStatus == "1") echo "done"?>" action="/scripts/update.php" method="post">
                             <div class="task-item"> 
-                                <input type="hidden" name="id" value="<?=$v->number?>">
-                                <p> Number: <?=$v->number?> </p>
+                                <input type="hidden" name="id" value="<?=$v->id?>">
+                                <p> id: <?=$v->id?> </p>
                                 <p> Title: <?=$v->title?> </p>
                                 <p> doneStatus: <?php if ($v->doneStatus == "1") echo "done"; elseif ($v->doneStatus == "0") echo "in work" ?> </p>
                                 <div class="update-form-buttons">
                                     <button class="update form-button" id="update" name="update" value="done"> Done </button>
                                     <button class="delete form-button" id="delete" name="update" value="delete"> Delete </button>
                                 </div>
+                                <p> Date of change: <?php if(!empty($v->changedDateTime)) echo $v->changedDateTime; else echo "soon"?> </p>
                             </div>
                         </form>
                     </div>

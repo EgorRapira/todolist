@@ -36,6 +36,7 @@
             redirectError();
         endif;
         require_once 'scripts/ToDoList.php';
+        if (isset($_SESSION['actionError'])) echo $_SESSION['actionError'];
     ?>
 </main>
 
