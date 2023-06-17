@@ -98,3 +98,8 @@ body {
 .done {
     background-color: rgba(0, 255, 0, 0.649);
 }
+
+.error {
+    color: rgb(255, 0, 0);
+}
+
