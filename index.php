@@ -64,10 +64,10 @@
         <div class="form-item">
             <label class="form-item-label" for="password">Your password</label>
             <input class="form-item-input" type="password" id="password" name="password" value="">
-            <?php if(isset($_SESSION['newPassordError'])):
+            <?php if(isset($_SESSION['newPasswordError'])):
             ?>
             <div class="error">
-                <?= $_SESSION['newPassordError']?>
+                <?= $_SESSION['newPasswordError']?>
             </div>
             <?php
             endif?>
@@ -83,10 +83,10 @@
             <?php
             endif
         ?>
-        <?php if(isset($_SESSION['unexpectedError'])):
+        <?php if(isset($_SESSION['createTableError'])):
             ?>
             <div class="error">
-                <?= $_SESSION['unexpectedError']?>. Please, try again.
+                <?= $_SESSION['createTableError']?>. Please, try again.
             </div>
             <?php
             endif

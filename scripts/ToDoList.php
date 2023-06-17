@@ -17,26 +17,21 @@
     }
 
     $tasks = [];
-
-    if (isset($_SESSION['auth'])) {
-        $login = $_SESSION['auth'];
-    } else {
-        redirectError();
-    }
+    $login = $_SESSION['auth'];
 
     function createList() {
-        global $host, $mySqlUser, $mySqlPassword, $login, $tasks;
-        $connect = new mysqli($host, $mySqlUser, $mySqlPassword, $login);
+        global $host, $mySqlUser, $mySqlPassword, $mysql_db, $login, $tasks;
+        $connect = new mysqli($host, $mySqlUser, $mySqlPassword, $mysql_db);
         if($connect->connect_error) {
             echo "Error id:".$connect->connect_errno.'<br>';
             echo "Error:".$connect->connect_error;
             exit;
         }
-        $query = "SELECT * FROM `ToDoList` WHERE `deletionStatus` <> 1";
+        $query = "SELECT * FROM `{$login}ToDoList` WHERE `deletionStatus` <> 1";
         $result = $connect->query($query);
     
         if($result->num_rows == 0) {
-            echo "Nothing";
+            echo "Empty";
         } else {
             $todolist = $result->fetch_all(MYSQLI_ASSOC);
             $countTasks = 0;

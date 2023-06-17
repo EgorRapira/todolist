@@ -1,15 +1,50 @@
 <?php
     session_start();
-    require_once '../settings.php';
-    function redirectBackError() {
-        $_SESSION['actionError'] = "Unknown action";
-        header('Location: ../lk.php');
-        exit;
+    function resetErrors() {
+        unset($_SESSION['actionError']);
+        unset($_SESSION['updateError']);
+        unset($_SESSION['deleteError']);
     }
-    function RedirectBackSuccess() {
+
+    require_once '../settings.php';
+
+    function redirectBack() {
         header('Location: ../lk.php');
         exit;
     };
+
+    function deleteTask($login, $task, $connect) {
+        $deletionDateTime = date('Y-m-d H:i:s');
+        $query = "UPDATE `{$login}ToDoList` SET `deletionStatus` = '1', `deletionDateTime` = '{$deletionDateTime}' WHERE `id` = {$task['id']}";
+        $result = $connect->query($query);
+        $connect->close();
+        if(!$result) {
+            $_SESSION['deleteError'] = 'The task not deleted';
+        }
+    redirectBack();
+    };
+
+    function updateDone($login, $task, $connect) {
+    if ($task['doneStatus'] == 1):
+        $query = "UPDATE `{$login}ToDoList` SET `doneStatus` = '0', `changedDateTime` =  NULL WHERE `id` = {$task['id']}";
+        $result = $connect->query($query);
+        $connect->close();
+        if(!$result) {
+            $_SESSION['updateError'] = 'The task not updated';
+        };
+    elseif ($task['doneStatus'] == 0):
+        $changedDateTime = date('Y-m-d H:i:s');
+        $query = "UPDATE `{$login}ToDoList` SET `doneStatus` = '1', `changedDateTime` =  '{$changedDateTime}' WHERE `id` = {$task['id']}"; 
+        $result = $connect->query($query);
+        $connect->close();
+        if(!$result) {
+            $_SESSION['updateError'] = 'The task not updated';
+        };
+    endif;
+    redirectBack();
+    }
+
+    resetErrors();
 
     switch ($_POST['update']) {
         case "done":
@@ -20,50 +55,37 @@
             break;
         default: 
             $_SESSION['actionError'] = "Unknown action";
-            redirectBackError();
-            break;
+            redirectBack();
     }
 
     $login = $_SESSION['auth'];
-    $_POST['id'] != ""? $taskID= $_POST['id']: redirectBackError();
+    $_POST['id'] != ""? $taskId= $_POST['id']: redirectBack();
 
     function update($action) {
-    global $host, $mySqlUser, $mySqlPassword, $login, $taskID;
-    $connect = new mysqli($host, $mySqlUser, $mySqlPassword, $login);
+    global $host, $mySqlUser, $mySqlPassword, $mysql_db, $login, $taskId;
+    $connect = new mysqli($host, $mySqlUser, $mySqlPassword, $mysql_db);
 
     if($connect->connect_error) {
         echo "Error number:".$connect->connect_errno.'<br>';
         echo "Error:".$connect->connect_error;
+        $connect->close();
         exit;
     }
 
-    $query = "SELECT * FROM `ToDoList` WHERE `id` = '$taskID'";
+    $query = "SELECT * FROM `{$login}ToDoList` WHERE `id` = '$taskId'";
     $result = $connect->query($query);
 
-    if($result->num_rows < 0) {
-        redirectBackError();
-    }
-
-    if ($action == "done") {
-        $query = "CALL `update_doneStatus`($taskID)";
-        $result = $connect->query($query);
-        if(!$result) {
-            redirectBackError();
-        }
-    
-        RedirectBackSuccess();
+    if($result->num_rows <= 0) {
         $connect->close();
-    } elseif ($action == "delete")
-
-    $query = "CALL `delete_task`($taskID)";
-    $result = $connect->query($query);
-    if(!$result) {
-        redirectBackError();
+        redirectBack();
     }
 
-    RedirectBackSuccess();
-    $connect->close();
+    $task = $result->fetch_array(MYSQLI_ASSOC);
 
+    if ($action === "done") {
+        updateDone($login, $task, $connect);
+    } elseif ($action === "delete")
+        deleteTask($login, $task, $connect);
     }
 
     update($action);

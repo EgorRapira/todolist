@@ -3,7 +3,7 @@
     $cssUrl = 'css/lk.css';
     require_once 'scripts/blocks/header.php';
     require_once 'settings.php';
-    function redirectError() {
+    function redirectBack() {
         header('Location: index.php');
         exit;
     }
@@ -33,10 +33,24 @@
         <h2> Your task list: </h2>
     <?php
         else:
-            redirectError();
+            redirectBack();
         endif;
         require_once 'scripts/ToDoList.php';
-        if (isset($_SESSION['actionError'])) echo $_SESSION['actionError'];
+        if (isset($_SESSION['actionError'])):
+            ?>
+                <div class="error"> <?=$_SESSION['actionError'];?> </div>
+            <?php
+        endif;
+        if (isset($_SESSION['newTaskError'])):
+            ?>
+                <div class="error"> <?=$_SESSION['newTaskError'];?> </div>
+            <?php
+        endif;
+        if (isset($_SESSION['updateError'])):
+            ?>
+                <div class="error"> <?=$_SESSION['updateError'];?> </div>
+            <?php
+        endif;
     ?>
 </main>
 
