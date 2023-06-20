@@ -1,13 +1,13 @@
 <?php
     class Task {
-        public int $id;
+        public int $taskId;
         public string $title;
         public bool $doneStatus;
         public $changedDateTime; 
         public bool $deletionStatus;
         public $deletionDateTime;
-        public function __construct(int $id, string $title, bool $doneStatus, $changedDateTime, bool $deletionStatus, $deletionDateTime) {
-            $this->id = $id;
+        public function __construct(int $taskId, string $title, bool $doneStatus, $changedDateTime, bool $deletionStatus, $deletionDateTime) {
+            $this->taskId = $taskId;
             $this->title = $title;
             $this->doneStatus = $doneStatus;
             $this->changedDateTime = $changedDateTime;
@@ -23,7 +23,7 @@
         global $host, $mySqlUser, $mySqlPassword, $mysql_db, $login, $tasks;
         $connect = new mysqli($host, $mySqlUser, $mySqlPassword, $mysql_db);
         if($connect->connect_error) {
-            echo "Error id:".$connect->connect_errno.'<br>';
+            echo "Error taskId:".$connect->connect_errno.'<br>';
             echo "Error:".$connect->connect_error;
             exit;
         }
@@ -37,8 +37,8 @@
             $countTasks = 0;
 
             foreach($todolist as $v) {
-                $taskId = 'task'.$v['id'];
-                $tasks += array($taskId => ${'task'.$v['id']} = new Task($v['id'], $v['title'], $v['doneStatus'], $v['changedDateTime'], $v['deletionStatus'], $v['deletionDateTime']));
+                $taskId = 'task'.$v['taskId'];
+                $tasks += array($taskId => ${'task'.$v['taskId']} = new Task($v['taskId'], $v['title'], $v['doneStatus'], $v['changedDateTime'], $v['deletionStatus'], $v['deletionDateTime']));
             }
             foreach ($tasks as $v):
                 if($v->deletionStatus == 1) continue;
@@ -49,10 +49,10 @@
                     endif;
                 ?>  
                     <div class="task-container">
-                        <form class="update-form <?php if ($v->doneStatus == "1") echo "done"?>" action="/scripts/update.php" method="post">
+                        <form class="update-form <?php if ($v->doneStatus == "1") echo "done"?>" action="/scripts/controllers/update.php" method="post">
                             <div class="task-item"> 
-                                <input type="hidden" name="id" value="<?=$v->id?>">
-                                <p> id: <?=$v->id?> </p>
+                                <input type="hidden" name="taskId" value="<?=$v->taskId?>">
+                                <p> taskId: <?=$v->taskId?> </p>
                                 <p> Title: <?=$v->title?> </p>
                                 <p> doneStatus: <?php if ($v->doneStatus == "1") echo "done"; elseif ($v->doneStatus == "0") echo "in work" ?> </p>
                                 <div class="update-form-buttons">

@@ -5,7 +5,7 @@
 ?>
 
 <main class="main">
-    <form class="form-group" action="scripts/auth.php" method="post" accept-charset="UTF-8" novalidate>
+    <form class="form-group" action="http://todolist2/scripts/controllers/auth.php" method="post" accept-charset="UTF-8" novalidate>
         <h2> Authorization </h2>
         <div class="form-item">
             <label class="form-item-label" for="login">Your login</label>
@@ -47,12 +47,12 @@
     <?php 
         else:
     ?>
-    <form class="form-group" action="scripts/register.php" method="post" accept-charset="UTF-8" novalidate>
+    <form class="form-group" action="scripts/controllers/register.php" method="post" accept-charset="UTF-8" novalidate>
         <h2> Registration </h2>
     
         <div class="form-item">
-            <label class="form-item-label" for="login">Your login</label>
-            <input class="form-item-input" type="text" id="login" name="login" value="">
+            <label class="form-item-label" for="newLogin">Your login</label>
+            <input class="form-item-input" type="text" id="newLogin" name="newLogin" value="">
             <?php if(isset($_SESSION['newLoginError'])):
             ?>
             <div class="error">
@@ -62,8 +62,8 @@
             endif?>
         </div>
         <div class="form-item">
-            <label class="form-item-label" for="password">Your password</label>
-            <input class="form-item-input" type="password" id="password" name="password" value="">
+            <label class="form-item-label" for="newPassword">Your password</label>
+            <input class="form-item-input" type="password" id="newPassword" name="newPassword" value="">
             <?php if(isset($_SESSION['newPasswordError'])):
             ?>
             <div class="error">
@@ -79,14 +79,6 @@
             ?>
             <div class="error">
                 <?= $_SESSION['regError']?>. Please, try again.
-            </div>
-            <?php
-            endif
-        ?>
-        <?php if(isset($_SESSION['createTableError'])):
-            ?>
-            <div class="error">
-                <?= $_SESSION['createTableError']?>. Please, try again.
             </div>
             <?php
             endif
