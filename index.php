@@ -5,7 +5,7 @@
 ?>
 
 <main class="main">
-    <form class="form-group" action="http://todolist2/scripts/controllers/auth.php" method="post" accept-charset="UTF-8" novalidate>
+    <form class="form-group" action="/scripts/controllers/auth.php" method="post" accept-charset="UTF-8" novalidate>
         <h2> Authorization </h2>
         <div class="form-item">
             <label class="form-item-label" for="login">Your login</label>

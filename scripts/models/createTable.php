@@ -22,7 +22,7 @@
 
         $result = $connect->query($query);
         $connect->close();
-        if($result != true) {
+        if(!$result) {
             $_SESSION['regError'] = "Table not created";
             redirectRegisterController();
         }

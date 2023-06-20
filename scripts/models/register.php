@@ -1,10 +1,12 @@
 <?php 
     session_start();
     require_once '../../settings.php';
+    require_once 'createTable.php';
     function redirectRegisterController() {
-        $_SESSION['register_step'] = "second";
         header('Location: http://'.HOST.'/scripts/controllers/register.php');
     };
+
+    $_SESSION['register_step'] = "second";
 
     $newLogin = $_SESSION['newLogin'];
     $newPassword = $_SESSION['newPassword'];
@@ -34,7 +36,6 @@
         redirectRegisterController();
     }
 
-    require_once 'createTable.php';
     createTable();
 
     unset($_SESSION['newLogin']);
