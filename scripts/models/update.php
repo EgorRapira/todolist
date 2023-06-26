@@ -40,7 +40,7 @@
     $action = $_SESSION['action'];
     $taskId = $_SESSION['taskId'];
 
-    $connect = new mysqli($host, $mySqlUser, $mySqlPassword, $mysql_db);
+    $connect = new mysqli($host, $mySqlUser, $mySqlPassword, $mysqlDB);
     
     if($connect->connect_error) {
         echo "Error number:".$connect->connect_errno.'<br>';

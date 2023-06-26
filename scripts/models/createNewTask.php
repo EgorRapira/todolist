@@ -10,7 +10,7 @@
     // Create a new to do list item and add it into the database
         $login = $_SESSION['auth'];
         $newTaskTitle = $_SESSION['newTaskTitle'];
-        $connect = new mysqli($host, $mySqlUser, $mySqlPassword, $mysql_db);
+        $connect = new mysqli($host, $mySqlUser, $mySqlPassword, $mysqlDB);
         if($connect->connect_error) {
             echo "Error number:".$connect->connect_errno.'<br>';
             echo "Error:".$connect->connect_error;

@@ -10,7 +10,7 @@
     $login = $_SESSION['login'];
     $password = $_SESSION['password'];
 
-    $connect = new mysqli($host, $mySqlUser, $mySqlPassword, $mysql_db);
+    $connect = new mysqli($host, $mySqlUser, $mySqlPassword, $mysqlDB);
 
     if($connect->connect_error) {
         echo "Error number:".$connect->connect_errno.'<br>';

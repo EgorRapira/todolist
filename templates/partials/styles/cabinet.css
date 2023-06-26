@@ -1,0 +1,37 @@
+.main {
+    padding-top: 20px;
+    min-height: 80vh;
+    box-sizing:content-box;
+}
+
+.tasks-row {
+    width: 100%;
+    display: flex;
+    width: 100%;
+    justify-content: space-around;
+}
+
+.task-container {
+    border-radius: 10px;
+    border-color: #fff;
+    border-style: solid;
+    margin-bottom: 10px;
+    text-align: left;
+    max-width: 35vw;
+    min-width: 40%;
+}
+
+.new-task-container {
+    border-radius: 10px;
+    border-color: #fff;
+    border-style: solid;
+    text-align: left;
+    max-width: 23vw;
+}
+
+.new-task-item {
+    padding: 5px;
+    display: block;
+    margin: 0 10px;
+    position: relative;
+}

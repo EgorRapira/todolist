@@ -1,7 +1,6 @@
 <?php
-    session_start();
-    $cssUrl = 'css/style.css';
-    require_once 'scripts/blocks/header.php';
+    $title = "Main";
+    require_once "{$_SERVER['DOCUMENT_ROOT']}/templates/page_template_header.php";
 ?>
 
 <main class="main">
@@ -89,5 +88,5 @@
     ?>
 </main>
 <?php
-    require_once 'scripts/blocks/footer.php';
+    require_once "{$_SERVER['DOCUMENT_ROOT']}/templates/page_template_footer.php";
 ?>
