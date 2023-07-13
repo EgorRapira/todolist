@@ -2,6 +2,7 @@
     padding-top: 20px;
     min-height: 80vh;
     box-sizing:content-box;
+    display: block;
 }
 
 .tasks-row {

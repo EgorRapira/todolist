@@ -1,10 +1,10 @@
 <?php
-    $title = "Main";
+    $page = "main";
     require_once "{$_SERVER['DOCUMENT_ROOT']}/templates/page_template_header.php";
 ?>
 
 <main class="main">
-    <form class="form-group" action="/scripts/controllers/auth.php" method="post" accept-charset="UTF-8" novalidate>
+    <form class="form-group" action="/scripts/auth.php" method="post" accept-charset="UTF-8" novalidate>
         <h2> Authorization </h2>
         <div class="form-item">
             <label class="form-item-label" for="login">Your login</label>
@@ -46,7 +46,7 @@
     <?php 
         else:
     ?>
-    <form class="form-group" action="scripts/controllers/register.php" method="post" accept-charset="UTF-8" novalidate>
+    <form class="form-group" action="scripts/register.php" method="post" accept-charset="UTF-8" novalidate>
         <h2> Registration </h2>
     
         <div class="form-item">
@@ -84,7 +84,7 @@
         ?>
     </form>
     <?php 
-        endif;
+        endif;   
     ?>
 </main>
 <?php
